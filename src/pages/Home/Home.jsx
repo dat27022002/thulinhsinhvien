@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Button from '~/components/Button';
 import Modal from '~/components/Modal';
 import { io } from 'socket.io-client';
+import { sendVoting } from '~/utils/service/audiences';
 
 const socket = io('http://localhost:3001'); // Địa chỉ server
 
@@ -49,6 +50,7 @@ const Home = () => {
          *
          * đoạn này dùng để gửi bình chọn tới server
          */
+        await sendVoting()
         setVote(vote);
         setProcess(2);
         closeModal();
