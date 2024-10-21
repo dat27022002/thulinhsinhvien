@@ -28,7 +28,6 @@ const database = getDatabase(app);
 
 export async function readData(dataPath) {
     const dbRef = ref(database);
-    const dbRef = ref(database);
 
     try {
         const snapshot = await get(child(dbRef, dataPath));
@@ -43,7 +42,6 @@ export async function readData(dataPath) {
 }
 
 export async function writeData(dataPath, data) {
-    const dbRef = ref(database, dataPath);
     const dbRef = ref(database, dataPath);
 
     try {

@@ -60,24 +60,6 @@ const Home = () => {
     };
 
     useEffect(() => {
-        waitStart(); // Lần đầu gọi để lấy dữ liệu
-
-        const intervalId = setInterval(async () => {
-            const processData = await getProcess();
-            setProcess(processData.index);
-            setIsProcessing(processData.isProcessing);
-            if (processData.isProcessing) {
-                setSeconds(processData.remainingTime);
-            } else {
-                clearInterval(intervalId); // Dừng interval khi không còn xử lý
-            }
-        }, 250);
-
-        // Cleanup interval khi component unmounts
-        return () => clearInterval(intervalId);
-    }, []);
-
-    useEffect(() => {
         if (seconds === 0) {
             /**
              *
