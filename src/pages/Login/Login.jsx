@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import CustomInput from '~/components/Input';
 
 import Wrapper from './Wrapper';
-import { login } from '~/utils/service/audiences';
+import { login as loginService } from '~/utils/service/audiences';
 
 const schema = z.object({
     username: z.string(),
@@ -25,18 +25,14 @@ const Login = ({ setUsername }) => {
 
     const navigate = useNavigate();
     const onSubmit = async (data) => {
-        try {
-            const isVerified = await login(data.username, data.password);
-            if (isVerified) {
-                setUsername('thulinhsinhvien1'); // Gọi setUsername nếu đăng nhập thành công
-                navigate('/binh-chon'); // Điều hướng đến trang khác
-            } else {
-                // Xử lý trường hợp login không thành công
-                console.log('Login failed');
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
+        console.log(data);
+        const res = await loginService(data.username, data.password);
+        if (res) {
+            console.log('login success');
+        } else {
+            console.log('login failed');
         }
+        navigate('/');
     };
 
     return (
@@ -45,7 +41,6 @@ const Login = ({ setUsername }) => {
                 <CustomInput
                     label="Tên đăng nhập"
                     name="username"
-                    type="tel"
                     register={register}
                     error={errors.username?.message}
                 />

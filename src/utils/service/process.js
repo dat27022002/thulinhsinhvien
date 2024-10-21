@@ -1,7 +1,6 @@
 import { readData } from '../firebase';
 
-
-// Lấy tiến trình cuộc thi 
+// Lấy tiến trình cuộc thi
 export async function getProcess() {
     const process = await readData('process');
     const index = process.index;
