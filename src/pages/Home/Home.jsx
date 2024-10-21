@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '~/components/Button';
 import Modal from '~/components/Modal';
-import { io } from 'socket.io-client';
 import { sendVoting } from '~/utils/service/audiences';
-
-const socket = io('http://localhost:3001'); // Địa chỉ server
 
 // Danh sách sinh viên mẫu
 const students = ['Sinh viên 1', 'Sinh viên 2'];
@@ -18,17 +17,19 @@ const Home = () => {
     const [isModal, setIsModal] = useState(false);
     const [vote, setVote] = useState(true);
 
+    const [cookies] = useCookies();
+    const navigate = useNavigate();
+
     //dunction gọi để chờ bắt đầu bình chọn
     const waitStart = () => {
-        // Nhận tin nhắn từ server
-        socket.on('message', (msg) => {
-            startTimer();
-        });
-
-        // Dọn dẹp khi component unmount
-        return () => {
-            socket.off('message');
-        };
+        // // Nhận tin nhắn từ server
+        // socket.on('message', (msg) => {
+        //     startTimer();
+        // });
+        // // Dọn dẹp khi component unmount
+        // return () => {
+        //     socket.off('message');
+        // };
     };
 
     const startTimer = () => {
@@ -50,7 +51,7 @@ const Home = () => {
          *
          * đoạn này dùng để gửi bình chọn tới server
          */
-        await sendVoting()
+        await sendVoting();
         setVote(vote);
         setProcess(2);
         closeModal();
@@ -91,6 +92,10 @@ const Home = () => {
     //gọi socket chờ bắt đầu
     useEffect(() => {
         waitStart();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
+        if (!cookies['isUser']) navigate('/login');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

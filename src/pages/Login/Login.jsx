@@ -7,9 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import CustomInput from '~/components/Input';
 
 import Wrapper from './Wrapper';
+import { login as loginService } from '~/utils/service/audiences';
 
 const schema = z.object({
-    phoneNumber: z.string(),
+    username: z.string(),
     password: z.string(),
 });
 
@@ -23,8 +24,14 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
+        const res = await loginService(data.username, data.password);
+        if (res) {
+            console.log('login success');
+        } else {
+            console.log('login failed');
+        }
         navigate('/');
     };
 
@@ -33,10 +40,9 @@ const Login = () => {
             <form className="space-y-6 flex-1" method="POST" onSubmit={handleSubmit(onSubmit)}>
                 <CustomInput
                     label="Tên đăng nhập"
-                    name="phoneNumber"
-                    type="tel"
+                    name="username"
                     register={register}
-                    error={errors.phoneNumber?.message}
+                    error={errors.username?.message}
                 />
 
                 <CustomInput

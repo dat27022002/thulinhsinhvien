@@ -6,10 +6,9 @@ export async function getSteps() {
     return index;
 }
 
-
 // Gọi hàm này để lấy số giây đếm ngược
-export async function getSteps() {
-    const process = await readData('process')
+export async function getStepsSeconds() {
+    const process = await readData('process');
     const index = process.index;
     const steps = process.steps;
 

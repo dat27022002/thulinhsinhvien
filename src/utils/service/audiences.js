@@ -1,4 +1,4 @@
-import { readData, writeData } from '../firebase';
+import { readData, writeData, updateDataWithTransaction } from '../firebase';
 
 // Gọi hàm này để kiểm tra xem tài khoản tồn tại không
 export async function login(username, password) {
@@ -13,7 +13,6 @@ export async function login(username, password) {
         return false;
     }
 }
-
 
 // Gọi hàm này để gửi kết quả lên server -> option là LIKE / DISLIKE
 export async function sendVoting(username, thisinh, option) {
