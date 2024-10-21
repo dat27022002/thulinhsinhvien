@@ -7,13 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import CustomInput from '~/components/Input';
 
 import Wrapper from './Wrapper';
+import { login } from '~/utils/service/audiences';
 
 const schema = z.object({
-    phoneNumber: z.string(),
+    username: z.string(),
     password: z.string(),
 });
 
-const Login = () => {
+const Login = ({ setUsername }) => {
     const {
         register,
         handleSubmit,
@@ -23,9 +24,19 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
-    const onSubmit = (data) => {
-        console.log(data);
-        navigate('/');
+    const onSubmit = async (data) => {
+        try {
+            const isVerified = await login(data.username, data.password);
+            if (isVerified) {
+                setUsername('thulinhsinhvien1'); // Gọi setUsername nếu đăng nhập thành công
+                navigate('/binh-chon'); // Điều hướng đến trang khác
+            } else {
+                // Xử lý trường hợp login không thành công
+                console.log('Login failed');
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
     };
 
     return (
@@ -33,10 +44,10 @@ const Login = () => {
             <form className="space-y-6 flex-1" method="POST" onSubmit={handleSubmit(onSubmit)}>
                 <CustomInput
                     label="Tên đăng nhập"
-                    name="phoneNumber"
+                    name="username"
                     type="tel"
                     register={register}
-                    error={errors.phoneNumber?.message}
+                    error={errors.username?.message}
                 />
 
                 <CustomInput
@@ -54,6 +65,7 @@ const Login = () => {
                             'flex w-full justify-center rounded-md border border-transparent bg-primary',
                             'px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-500',
                         )}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         Đăng nhập
                     </button>

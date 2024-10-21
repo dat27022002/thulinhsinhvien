@@ -1,10 +1,10 @@
-import { readData, writeData } from '../firebase';
+import { readData, updateDataWithTransaction, writeData } from '../firebase';
 
 // Gọi hàm này để kiểm tra xem tài khoản tồn tại không
 export async function login(username, password) {
     try {
-        const accounts = await readData(`audiences/${username}`);
-        if (accounts && accounts.password === password) {
+        const account = await readData(`accounts/${username}`);
+        if (account && account.password == password) {
             return true;
         }
         return false;
@@ -14,12 +14,11 @@ export async function login(username, password) {
     }
 }
 
-
 // Gọi hàm này để gửi kết quả lên server -> option là LIKE / DISLIKE
 export async function sendVoting(username, thisinh, option) {
     try {
         // Đọc thông tin bình chọn hiện tại của khán giả (là một mảng)
-        let voteData = await readData(`audiences/${username}/vote`);
+        let voteData = await readData(`accounts/${username}/vote`);
         const thisinhData = await readData(`examiness/${thisinh}`);
 
         // Nếu voteData chưa có, khởi tạo là một mảng trống

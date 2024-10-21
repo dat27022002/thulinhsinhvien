@@ -1,29 +1,35 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { publicRoute } from './routes';
 import { DefaultLayout } from './layouts';
+import Login from './pages/Login';
+import Home from './pages/Home';
 
 function App() {
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {});
     return (
         <Router>
             <div className="App">
                 <Routes>
-                    {publicRoute.map((route, index) => {
-                        const Page = route.component;
-                        const Layout = route.layout === null ? Fragment : DefaultLayout;
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        );
-                    })}
+                    <Route
+                        path=""
+                        element={
+                            <Fragment>
+                                <Login setUsername={setUsername} />
+                            </Fragment>
+                        }
+                    ></Route>
+                    <Route
+                        path="/binh-chon"
+                        element={
+                            <Fragment>
+                                <Home username={username}/>
+                            </Fragment>
+                        }
+                    ></Route>
                 </Routes>
             </div>
         </Router>
