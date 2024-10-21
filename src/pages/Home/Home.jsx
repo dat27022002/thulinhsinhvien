@@ -41,7 +41,6 @@ const Home = ({ username }) => {
 
     //liên tục gọi process để chờ bắt đầu
     useEffect(() => {
-        console.log('hello', isProcessing);
         if (isProcessing) {
             const intervalId = setInterval(async () => {
                 const processData = await getProcess();
