@@ -4,7 +4,7 @@ import { readData, updateDataWithTransaction, writeData } from '../firebase';
 export async function login(username, password) {
     try {
         const account = await readData(`accounts/${username}`);
-        if (account && account.password == password) {
+        if (account && account.password === password) {
             return true;
         }
         return false;
@@ -19,6 +19,7 @@ export async function sendVoting(username, thisinh, option) {
     try {
         // Đọc thông tin bình chọn hiện tại của khán giả (là một mảng)
         let voteData = await readData(`accounts/${username}/vote`);
+        // eslint-disable-next-line no-unused-vars
         const thisinhData = await readData(`examiness/${thisinh}`);
 
         // Nếu voteData chưa có, khởi tạo là một mảng trống
@@ -63,4 +64,12 @@ export async function sendVoting(username, thisinh, option) {
         console.error(`Lỗi khi xử lý bình chọn của ${username}:`, error);
         return { success: false, message: 'Có lỗi xảy ra, vui lòng thử lại sau.' };
     }
+}
+
+export async function startVote() {
+    await writeData('process/steps/0/isProcessing', true);
+}
+
+export async function pauseVote() {
+    await writeData('process/steps/0/isProcessing', false);
 }

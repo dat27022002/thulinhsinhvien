@@ -1,13 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { publicRoute } from './routes';
 import { DefaultLayout } from './layouts';
 import Login from './pages/Login';
 import Home from './pages/Home';
 
 function App() {
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState('a');
 
     useEffect(() => {});
     return (
@@ -17,17 +16,17 @@ function App() {
                     <Route
                         path=""
                         element={
-                            <Fragment>
+                            <DefaultLayout>
                                 <Login setUsername={setUsername} />
-                            </Fragment>
+                            </DefaultLayout>
                         }
                     ></Route>
                     <Route
                         path="/binh-chon"
                         element={
-                            <Fragment>
-                                <Home username={username}/>
-                            </Fragment>
+                            <DefaultLayout>
+                                <Home username={username} />
+                            </DefaultLayout>
                         }
                     ></Route>
                 </Routes>

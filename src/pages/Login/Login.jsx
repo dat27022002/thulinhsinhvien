@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import CustomInput from '~/components/Input';
+import toast from 'react-hot-toast';
 
+import CustomInput from '~/components/Input';
 import Wrapper from './Wrapper';
 import { login as loginService } from '~/utils/service/audiences';
 
@@ -25,14 +26,14 @@ const Login = ({ setUsername }) => {
 
     const navigate = useNavigate();
     const onSubmit = async (data) => {
-        console.log(data);
         const res = await loginService(data.username, data.password);
         if (res) {
-            console.log('login success');
+            toast.success('đăng nhập thành công');
+            setUsername(data.username);
+            navigate('/binh-chon');
         } else {
-            console.log('login failed');
+            toast.error('đăng nhập thất bại');
         }
-        navigate('/');
     };
 
     return (

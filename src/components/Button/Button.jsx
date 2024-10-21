@@ -3,7 +3,7 @@ import React from 'react';
 
 const cx = classNames;
 
-function Button({ children, className, medium, large, onClick, type = 'button', ...props }) {
+function Button({ children, className, medium, large, onClick, type = 'button', disabled, ...props }) {
     return (
         <button
             className={cx(
@@ -17,6 +17,7 @@ function Button({ children, className, medium, large, onClick, type = 'button', 
             onClick={onClick}
             type={type}
             {...props}
+            disabled={disabled}
         >
             {children}
         </button>
